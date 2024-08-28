@@ -1,0 +1,31 @@
+version: '3.11.9'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "q1w2e3r4t5y"
+      POSTGRES_DB: "postgres"
+      POSTGGRES_HOST: "postgres"
+    ports:
+     - "5432:5432"
+    volumes:
+     - pgdata:/var/lib/postgresql/data
+
+  animals:
+    container_name: stocks
+    build: .
+    ports:
+     - "8000:8000"
+    depends_on:
+     - postgres
+    environment:
+      - PG_USER=postgres
+      - PG_PASSWORD=q1w2e3r4t5y
+      - PG_DB=postgres
+      - PG_HOST=postgres
+
+volumes:
+  pgdata: {}
